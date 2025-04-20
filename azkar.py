@@ -2,10 +2,8 @@ from telethon import TelegramClient, events, Button
 import random
 import asyncio
 import os
-from telethon.sessions import StringSession
-from keep_alive import keep_alive
+from telethon.sessions import StringSession  # استخدام StringSession بدلاً من SQLite
 import time
-from flask import Flask
 
 # بيانات البوت
 API_ID = 22696039
@@ -13,7 +11,7 @@ API_HASH = "00f9cc1d3419e879013f7a9d2d9432e2"
 BOT_TOKEN = "7732686950:AAEJ8M2DrM6wUS1sIwDrUd47y0n9R8fsiRo"
 
 # أيدي الجروبات المستهدفة
-CHAT_IDS = [-1002457023914, -1002414213451]
+CHAT_IDS = [-1002457023914, -1002414213451]  # الجروب الأول + الجروب الثاني
 
 # تأكيد بداية التشغيل
 print("✅ البوت بدأ التشغيل...")
@@ -47,7 +45,7 @@ async def check_messages(event):
 
 @bot.on(events.NewMessage(pattern="/start"))
 async def start_handler(event):
-    print(f"🚀 استقبل البوت أمر /start من: {event.chat_id}")
+    print(f"🚀 استقبل البوت أمر /start من: {event.chat_id}")  # تأكيد استقبال الأمر
 
     message = """✨ **ذكِّر قلبك بالله، وارتقِ بروحك 📿**  
     في زحمة الحياة، البوت ده هيكون **رفيقك للذكر والدعاء والتسبيح** 🌙  
@@ -73,26 +71,6 @@ async def send_zekr():
 
         await asyncio.sleep(300)  # كل 5 دقائق
 
-# إعداد Flask
-app = Flask(__name__)
-
-@app.route('/')
-def home():
-    return "البوت يعمل بنجاح!"
-
-@app.route('/status')
-def status():
-    return "البوت متصل بالتليجرام بنجاح!"
-
 # تشغيل البوت والاستجابة للأحداث
-keep_alive()  # تشغيل السيرفر علشان يفضل البوت شغال
-
-# استخدم ensure_future لتشغيل send_zekr في الخلفية
-asyncio.ensure_future(send_zekr())
-
 with bot:
-    bot.loop.run_forever()
-
-# تأكيد أن البوت يعمل مع Flask
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=3000)
+    bot.loop.run_until_complete(send_zekr())
