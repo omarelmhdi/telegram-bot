@@ -1,8 +1,15 @@
 {
+  "version": 2,
   "builds": [
-    { "src": "azkar.py", "use": "@vercel/python" }
+    {
+      "src": "azkar.py",
+      "use": "@vercel/python"
+    }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "azkar.py" }
+    {
+      "src": "/(.*)",
+      "dest": "azkar.py"
+    }
   ]
 }
