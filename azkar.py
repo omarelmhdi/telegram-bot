@@ -3,7 +3,7 @@ import random
 import asyncio
 import os
 from telethon.sessions import StringSession  # استخدام StringSession بدلاً من SQLite
-import time
+from flask import Flask
 
 # بيانات البوت
 API_ID = 22696039
@@ -71,6 +71,23 @@ async def send_zekr():
 
         await asyncio.sleep(300)  # كل 5 دقائق
 
+# إعداد Flask
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "البوت يعمل بنجاح!"
+
+@app.route('/status')
+def status():
+    return "البوت متصل بالتليجرام بنجاح!"
+
+# استخدم ensure_future لتشغيل send_zekr في الخلفية
+asyncio.ensure_future(send_zekr())
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=3000)
+
 # تشغيل البوت والاستجابة للأحداث
 with bot:
-    bot.loop.run_until_complete(send_zekr())
+    bot.loop.run_forever()
