@@ -3,6 +3,7 @@ import random
 import asyncio
 import os
 from telethon.sessions import StringSession  # استخدام StringSession بدلاً من SQLite
+import time
 from flask import Flask
 
 # بيانات البوت
@@ -85,6 +86,7 @@ def status():
 # استخدم ensure_future لتشغيل send_zekr في الخلفية
 asyncio.ensure_future(send_zekr())
 
+# تأكيد أن البوت يعمل مع Flask
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3000)
 
